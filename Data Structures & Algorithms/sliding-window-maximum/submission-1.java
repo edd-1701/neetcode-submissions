@@ -1,0 +1,33 @@
+/*
+
+
+    create a maxHeap that will store int[] {number, index}
+    iterate the nums
+
+
+
+*/
+
+class Solution {
+    public int[] maxSlidingWindow(int[] nums, int k) {
+        final var result = new int[nums.length - k + 1];
+        var resultIndex = 0;
+
+        final var maxHeap = new PriorityQueue<int[]>((a, b) -> b[0] - a[0]);
+
+        for (var i = 0; i < nums.length; i++) {
+            maxHeap.add(new int[] {nums[i], i});
+
+            if (i < k - 1) {
+                continue;
+            }
+
+            while (!maxHeap.isEmpty() && maxHeap.peek()[1] <= (i - k)) {
+                maxHeap.poll();
+            }
+            result[resultIndex++] = maxHeap.peek()[0];
+        }
+
+        return result;
+    }
+}
